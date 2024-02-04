@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Microsoft.EntityFrameworkCore;
 
 namespace MediatorDesignPattern.Models
 {
@@ -11,9 +12,9 @@ namespace MediatorDesignPattern.Models
     {
         private ContactsContext db;
         public ContactHandler(ContactsContext db) => this.db = db;
-        public Task<Contact> Handle(Query request, CancellationToken cancellationToken)
+        public async Task<Contact> Handle(Query request, CancellationToken cancellationToken)
         {
-            return this.db.Contacts.Where(c => c.Id == request.Id).SingleOrDefaultAsync();
+            return await this.db.Contacts.Where(c => c.Id == request.Id).SingleOrDefaultAsync();
         }
     }
 }
